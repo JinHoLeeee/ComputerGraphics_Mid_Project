@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset=utf-8>
+	<title>My first three.js app</title>
+	<style>
+		body {
+			margin: 0;
+		}
+
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Three js -->
+	<script src="https://threejs.org/build/three.min.js"></script>
+
+	<!-- WebGL 지원유무 https://github.com/mrdoob/three.js/blob/master/examples/js/WebGL.js 참고 -->
+	<script src="WebGL.js"></script>
+
+	<!-- OrbitControls.js allow the camera to orbit around a target 마우스와 카메라를 상호작용하게 합니다. -->
+	<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+
+
+	<!-- OBJ Loader를 사용하기 위해 추가. https://github.com/mrdoob/three.js/blob/master/examples/js/loaders/OBJLoader.js 와 동일 소스  -->
+	<script src="objloader.js"></script>
+	<script src="mtlloader.js"></script>
+
+	<script>
+		window.onload = function (e){
+		var width=window.innerWidth;
+		var height=window.innerheight;
+		var scene=new THREE.Scene();
+
+		initThree();
+	
+
+		scene.add(new THREE.AmbientLight(0x333333));
+
+		var light=new THREE.DirectionalLight(0xffffff,1);
+		light.position.set(5,3,5);
+		scene.add(light);
+
+		var geometry=new THREE.SphereGeometry(1,32,32);//earth radius=0.1
+		const loader=new THREE.TextureLoader();
+		var material=new THREE.MeshPhongMaterial({
+		map:loader.load('earthmap1k.jpg'),
+		
+		});
+
+		var earthMesh=new THREE.Mesh(geometry,material);
+		earthMesh.position.z=0;
+		scene.add(earthMesh);
+
+		var sun=new THREE.SphereGeometry(10,32,32);
+		const sunloader=new THREE.TextureLoader();
+		var sunmaterial=new THREE.MeshPhongMaterial({
+		map:sunloader.load('sun.jpg')
+		});
+
+		var sunMesh=new THREE.Mesh(sun,sunmaterial);
+		sunMesh.position.z=30;
+		scene.add(sunMesh);
+
+		var moon=new THREE.SphereGeometry(0.5,32,32);
+		const moonloader=new THREE.TextureLoader();
+		var moonmaterial=new THREE.MeshPhongMaterial({
+		map:moonloader.load('moon.jpg')
+		});
+
+		var moonMesh=new THREE.Mesh(moon,moonmaterial);
+		moonMesh.position.z=0.5;
+		scene.add(moonMesh);
+
+
+		var mercury=new THREE.SphereGeometry(0.38,32,32);
+		const mercuryloader=new THREE.TextureLoader();
+		var mercurymaterial=new THREE.MeshPhongMaterial({
+		map:mercuryloader.load('mercury.jpg')
+		});
+
+		var mercuryMesh=new THREE.Mesh(mercury,mercurymaterial);
+		mercuryMesh.position.z=12;
+		scene.add(mercuryMesh);
+
+
+		var venus=new THREE.SphereGeometry(1,32,32);
+		const venusloader=new THREE.TextureLoader();
+		var venusmaterial=new THREE.MeshPhongMaterial({
+		map:venusloader.load('venus.jpg')
+		});
+
+		var venusMesh=new THREE.Mesh(venus,venusmaterial);
+		venusMesh.position.z=6;
+		scene.add(venusMesh);
+
+
+		var mars=new THREE.SphereGeometry(0.5,32,32);
+		const marsloader=new THREE.TextureLoader();
+		var marsmaterial=new THREE.MeshPhongMaterial({
+		map:marsloader.load('mars.jpg')
+		});
+
+		var marsMesh=new THREE.Mesh(mars,marsmaterial);
+		marsMesh.position.z=-5;
+		scene.add(marsMesh);
+
+		var jupiter=new THREE.SphereGeometry(11,32,32);
+		const jupiterloader=new THREE.TextureLoader();
+		var jupitermaterial=new THREE.MeshPhongMaterial({
+		map:jupiterloader.load('jupiter.jpg')
+		});
+
+		var jupiterMesh=new THREE.Mesh(jupiter,jupitermaterial);
+		jupiterMesh.position.z=-25;
+		scene.add(jupiterMesh);
+
+//===========================================================saturn
+		var saturn=new THREE.SphereGeometry(6.6,32,32);
+		const saturnloader=new THREE.TextureLoader();
+		var saturnmaterial=new THREE.MeshPhongMaterial({
+		map:saturnloader.load('saturn.jpg')
+		});
+
+		var saturnMesh=new THREE.Mesh(saturn,saturnmaterial);
+		saturnMesh.position.z=-50;
+		scene.add(saturnMesh);
+
+		var saturn_ring = new THREE.RingGeometry( 8, 9, 32 );
+		const saturn_ringloader=new THREE.TextureLoader();
+		var saturn_ringmaterial = new THREE.MeshPhongMaterial({
+		map:saturn_ringloader.load('saturn_ring.jpg')
+		});
+		var saturn_ringmesh = new THREE.Mesh( saturn_ring, saturn_ringmaterial );
+		scene.add( saturn_ringmesh );
+		saturn_ringmesh.position.z=-50;
+
+//=========================================================uranus
+
+		var uranus=new THREE.SphereGeometry(3.8,32,32);
+		const uranusloader=new THREE.TextureLoader();
+		var uranusmaterial=new THREE.MeshPhongMaterial({
+		map:uranusloader.load('uranus.jpg')
+		});
+
+		var uranusMesh=new THREE.Mesh(uranus,uranusmaterial);
+		uranusMesh.position.z=-65;
+		scene.add(uranusMesh);
+
+		var uranus_ring1 = new THREE.RingGeometry( 5, 6.5, 32 );
+		const uranus_ring1loader=new THREE.TextureLoader();
+		var uranus_ring1material = new THREE.MeshPhongMaterial({
+		map:uranus_ring1loader.load('uranus_ring.jpg')
+		});
+		var uranus_ring1mesh = new THREE.Mesh( uranus_ring1, uranus_ring1material );
+		scene.add( uranus_ring1mesh );
+		uranus_ring1mesh.position.z=-65;
+
+		var uranus_ring2 = new THREE.RingGeometry( 7, 8.5, 32 );
+		const uranus_ring2loader=new THREE.TextureLoader();
+		var uranus_ring2material = new THREE.MeshPhongMaterial({
+		map:uranus_ring2loader.load('uranus_ring.jpg')
+		});
+		var uranus_ring2mesh = new THREE.Mesh( uranus_ring2, uranus_ring2material );
+		scene.add( uranus_ring2mesh );
+		uranus_ring2mesh.position.z=-65;
+
+
+
+
+//=========================================================neptune
+
+		var neptune=new THREE.SphereGeometry(4.2,32,32);
+		const neptuneloader=new THREE.TextureLoader();
+		var neptunematerial=new THREE.MeshPhongMaterial({
+		map:neptuneloader.load('neptune.jpg')
+		});
+
+		var neptuneMesh=new THREE.Mesh(neptune,neptunematerial);
+		neptuneMesh.position.z=-80;
+		scene.add(neptuneMesh);
+
+
+
+		function initThree() {
+				// 브라우저가 WebGL을 지원하는지 체크
+				if (WEBGL.isWebGLAvailable()) {
+					console.log('이 브라우저는 WEBGL을 지원합니다.');
+				} else {
+					console.log('이 브라우저는 WEBGL을 지원하지 않습니다.');
+				}
+
+				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+				let renderer = new THREE.WebGLRenderer({
+					antialias: true
+				});
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				renderer.shadowMap.enabled = true;
+				renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+				document.body.appendChild(renderer.domElement);
+
+				//let axes = new THREE.AxisHelper(10);
+				//scene.add(axes);
+
+				camera.position.x = 2;
+				camera.position.y = 1;
+				camera.position.z = 1;
+
+				controls = new THREE.OrbitControls(camera,renderer.domElement);
+				controls.rotateSpeed = 1.0;
+				controls.zoomSpeed = 1.2;
+				controls.panSpeed = 0.8;
+				controls.minDistance = 5;
+				controls.maxDistance = 100;
+
+				function animate() {
+					requestAnimationFrame(animate);
+
+					renderer.render(scene, camera);
+					controls.update();
+				}
+
+				animate();
+			}
+
+		}
+	</script>
+</body>
+
+</html>
